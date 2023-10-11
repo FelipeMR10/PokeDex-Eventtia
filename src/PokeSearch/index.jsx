@@ -1,22 +1,21 @@
+import { Button, TextField, List } from "@mui/material";
 import "./PokeSearch.css";
 function PokeSearch() {
   return (
     <>
-    <div className="pokeSearch">
-    <input
-        type="text"
-        name="search"
-        id="search"
-        
-        placeholder="Pikachu"
-      ></input>
-      <button type="button">Buscar</button>
-    </div>
-     
+      <div className="pokeSearch">
+        <TextField
+          label="Buscar Pokemon"
+          variant="outlined"
+          
+          
+        />
+        <Button variant="contained" color="primary" margin="">
+          Buscar
+        </Button>
+      </div>
     </>
   );
 }
 
 export { PokeSearch };
-// <div className="pokeSearch">
-// </div>;
