@@ -5,11 +5,9 @@ function PokeSearch() {
     <>
       <div className="pokeSearch">
         <TextField
-          label="Buscar Pokemon"
+          label="Nombre del Pokemon"
           variant="outlined"
-          
-          
-        />
+          />
         <Button variant="contained" color="primary" margin="">
           Buscar
         </Button>

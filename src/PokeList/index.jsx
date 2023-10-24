@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
-import { List, Grid, Typography, ListItem, ListItemText } from "@mui/material";
-import { Pagination } from "../Pagination";
+import { List, ListItem, Pagination } from "@mui/material";
 import "./PokeList.css";
-
-function generate(pokemon) {
-  return currentItems.map(pokemon);
-  // [0, 1, 2].map((value) =>
-  //   React.cloneElement(element, {
-  //     key: value,
-  //   })
-  // );
-}
 
 function PokeList() {
   const [pokemons, setPokemons] = useState([]); //estado que actualiza la lista de pokemones
   const [currentPage, setCurrentPage] = useState(1); //estado de la pag de pokemones que se muestra
   const [itemsPerPage] = useState(10); //este estado controla cuantos pokemones salen por pag
-  const [dense, setDense] = React.useState(true);
 
   useEffect(() => {
     async function fetchPokemones() {
@@ -26,7 +14,6 @@ function PokeList() {
           "https://pokeapi.co/api/v2/pokemon?limit=100"
         );
         const data = await response.json();
-        // console.log(data);
         setPokemons(data.results);
       } catch (error) {
         console.error("Error fetching Pokémon data:", error);
@@ -40,38 +27,33 @@ function PokeList() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = pokemons.slice(indexOfFirstItem, indexOfLastItem);
 
-  const onPageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
   };
-  // const Demo = styled("div")(({ theme }) => ({
-  //   backgroundColor: theme.palette.background.paper,
-  // }));
+
   return (
     <>
-      <ul>
-        {currentItems.map((pokemon) => (
-          <li key={pokemon.name}>
-            {/* <a href="#">{pokemon.name}</a> */}
-          </li>
+      <List sx={{ margin: "1em" }}>
+        {currentItems.map((pokemon, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              backgroundColor: "white",
+              justifyContent: "center",
+              fontFamily: "Courier New",
+              border: "solid 1px",
+            }}
+          >
+            {pokemon.name}
+          </ListItem>
         ))}
-      </ul>
-      <Grid item xs={12} md={6}>
-        {/* <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-          Text only
-        </Typography> */}
-        <List dense={dense}>
-          {currentItems.map((pokemon, index) => (
-            <ListItem key={index}>{pokemon.name}</ListItem>
-          ))}
-        </List>
-        {/* <Demo>
-         
-        </Demo> */}
-      </Grid>
+      </List>
+
       <Pagination
-        currentPage={currentPage}
-        totalPages={Math.ceil(pokemons.length / itemsPerPage)}
-        onPageChange={onPageChange}
+        sx={{ display: "flex", justifyContent: "center" }}
+        page={currentPage}
+        count={Math.ceil(pokemons.length / itemsPerPage)}
+        onChange={handleChange}
       />
     </>
   );
