@@ -1,17 +1,23 @@
-import { Button, TextField, List } from "@mui/material";
-import "./PokeSearch.css";
-function PokeSearch() {
+import React from "react";
+import { TextField, List, ListItem } from "@mui/material";
+//import "./PokeSearch.css";
+
+function PokeSearch({ pokemons }) {
+  //const [pokemons, setPokemons] = useState([]);
+  //const { searchValue, setSearchValue } =  useState('');
+
+
+  console.log(pokemons)
+
   return (
     <>
-      <div className="pokeSearch">
-        <TextField
-          label="Nombre del Pokemon"
-          variant="outlined"
-          />
-        <Button variant="contained" color="primary" margin="">
-          Buscar
-        </Button>
-      </div>
+      <TextField
+        label="Buscar Pokemon"
+        variant="filled"
+        margin=""
+        style={{ marginLeft: "auto" }}
+      />
+      
     </>
   );
 }
