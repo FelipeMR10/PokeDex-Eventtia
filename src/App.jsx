@@ -1,6 +1,5 @@
-import { PokeSearch } from "./PokeSearch";
 import { PokeList } from "./PokeList";
-import "./App.css";
+//import "./App.css";
 
 function App() {
   return (
@@ -10,6 +9,7 @@ function App() {
       </header>
       
       <PokeList />
+      
       <footer>
         <h4>By: FelipeMR10</h4>
       </footer>

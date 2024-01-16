@@ -4,9 +4,9 @@ import { PokeSearch } from "../PokeSearch";
 
 function PokeList() {
   const [pokemons, setPokemons] = useState([]); //estado que actualiza la lista de pokemones
+  const [filteredPokemons, setFilteredPokemons] = useState([]); //estado para almacenar los pokemones filtrados
   const [currentPage, setCurrentPage] = useState(1); //estado de la pag de pokemones que se muestra
   const [itemsPerPage] = useState(10); //este estado controla cuantos pokemones salen por pag
-  //const [requestCount, setRequestCount] = useState(0);
 
   useEffect(() => {
     async function fetchPokemones() {
@@ -16,30 +16,41 @@ function PokeList() {
         );
         const data = await response.json();
         setPokemons(data.results);
-        //setRequestCount(requestCount + 1);
       } catch (error) {
-        console.error("Error fetching Pokémon data:", error);
+        console.error("Error, no se encontraron datos", error);
       }
     }
 
     fetchPokemones();
   }, []);
-  //console.log(pokemons);
-  //return <PokeSearch pokemons={pokemons} />;
+
+  useEffect(() => {
+    setFilteredPokemons(pokemons); // Inicialmente, muestra todos los pokemones
+  }, [pokemons]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = pokemons.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredPokemons.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
-  const handleChange = (event, value) => {
-    setCurrentPage(value);
+  const textSearch = (searchText) => {
+    // Filtrar los pokemones en función del término de búsqueda
+    const filtered = pokemons.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredPokemons(filtered);
+    setCurrentPage(1); // Reiniciar a la primera página después de la búsqueda
   };
 
-  return ( 
-    
+  const handleChange = ( value) => {
+  setCurrentPage(value);
+  };
+
+  return (
     <>
-    <PokeSearch pokemons={pokemons}/>
-    {/* //   <p>Total de Peticiones a la API: {requestCount}</p> */}
+      <PokeSearch onSearch={textSearch} />
       <List sx={{ margin: "1em" }}>
         {currentItems.map((pokemon, index) => (
           <ListItem
@@ -47,7 +58,6 @@ function PokeList() {
             sx={{
               backgroundColor: "white",
               justifyContent: "center",
-              fontFamily: "Courier New",
               border: "solid 1px",
             }}
           >
@@ -62,10 +72,9 @@ function PokeList() {
           fontFamily: "Courier New",
         }}
         page={currentPage}
-        count={Math.ceil(pokemons.length / itemsPerPage)}
+        count={Math.ceil(filteredPokemons.length / itemsPerPage)}
         onChange={handleChange}
       />
-      
     </>
   );
 }

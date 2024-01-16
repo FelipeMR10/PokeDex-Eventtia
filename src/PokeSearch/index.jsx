@@ -1,24 +1,28 @@
-import React from "react";
-import { TextField, List, ListItem } from "@mui/material";
+import React, { useState } from "react";
+import { TextField } from "@mui/material";
 //import "./PokeSearch.css";
 
-function PokeSearch({ pokemons }) {
-  //const [pokemons, setPokemons] = useState([]);
-  //const { searchValue, setSearchValue } =  useState('');
+function PokeSearch({ onSearch }) {
+  const [searchTerm, setSearchTerm] = useState("");
 
-
-  console.log(pokemons)
+  const handleSearchChange = (event) => {
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
+    // Llamar a la función de búsqueda proporcionada por el padre
+    onSearch(newSearchTerm);
+  };
 
   return (
-    <>
+    <form>
       <TextField
         label="Buscar Pokemon"
-        variant="filled"
-        margin=""
-        style={{ marginLeft: "auto" }}
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={searchTerm}
+        onChange={handleSearchChange}
       />
-      
-    </>
+    </form>
   );
 }
 
